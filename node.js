@@ -7,11 +7,12 @@ async function main(){
     try{
         await client.connect();
         //await listDatabases(client);
-        await createListing(client, {
-            name: "yunrui",
-            info: "this is info of yunrui",
-            uri: "www.google.com"
-        });
+        //await createListing(client, {
+        //    name: "yunrui",
+        //    info: "this is info of yunrui",
+        //    uri: "www.google.com"
+        //});
+        await findOneListingByName(client, "yunrui");
     }catch(e){
         console.error(e);
     }finally {
@@ -32,4 +33,17 @@ async function listDatabases(client){
 async function createListing(client, newListing) {
     const result = await client.db("user").collection("newdatabase").insertOne(newListing);
     console.log(`new listing created with follow id: ${result.insertedId}`);
+}
+
+async function findOneListingByName(client, nameOfListing) {
+    const result = await client.db("user").collection("newdatabase").findOne({ name: nameOfListing });
+
+    if (result) {
+        console.log(`found a result with name: ${nameOfListing} `);
+        console.log(result);
+    } else {
+        console.log(`No such name in database`);
+    }
+
+
 }
