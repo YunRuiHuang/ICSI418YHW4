@@ -6,7 +6,12 @@ async function main(){
 
     try{
         await client.connect();
-        await listDatabases(client);
+        //await listDatabases(client);
+        await createListing(client, {
+            name: "yunrui",
+            info: "this is info of yunrui",
+            uri: "www.google.com"
+        });
     }catch(e){
         console.error(e);
     }finally {
@@ -22,4 +27,9 @@ async function listDatabases(client){
     databasesList.databases.forEach(db => {
         console.log(`- ${db.name}`);
     });
+}
+
+async function createListing(client, newListing) {
+    const result = await client.db("user").collection("newdatabase").insertOne(newListing);
+    console.log(`new listing created with follow id: ${result.insertedId}`);
 }
